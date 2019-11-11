@@ -1,12 +1,20 @@
 import { 
     FILL_POST_LIST,
     EMPTY_POST_LIST,
-    SELECT_POST_PROFILE
+    SELECT_POST_PROFILE,
+    DELETE_POST,
+    DELETE_POST_SUCCESS,
+    EDIT_POST_SUCCESS,
+    EDIT_POST
 } from '../actions/types';
 
 const INITIAL_STATE = {
     postList: [],
-    selectedPostDetailProfile: null
+    selectedPostDetailProfile: null,
+    deleteLoading: false,
+    deleteError: false,
+    editLoading:false,
+    editError:false
 }
 
 export default (state=INITIAL_STATE, action) => {
@@ -17,6 +25,14 @@ export default (state=INITIAL_STATE, action) => {
             return { ...state, postList: [...state.postList, action.payload] }
         case SELECT_POST_PROFILE :
             return { ...state, selectedPostDetailProfile: action.payload }
+        case DELETE_POST :
+            return { ...state, deleteLoading: true }
+        case DELETE_POST_SUCCESS :
+            return { ...state, deleteLoading: false, selectedPostDetailProfile: null }
+        case EDIT_POST :
+            return{...state,editLoading:true}
+        case EDIT_POST_SUCCESS:
+            return {...state, editLoading:false, selectedPostDetailProfile:action.payload}
         default :
             return state;
     }

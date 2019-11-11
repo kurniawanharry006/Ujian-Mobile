@@ -9,13 +9,14 @@ class AppInit extends Component {
   componentDidMount() {
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: "AIzaSyBoY9TDk4acZ222kvOPunwz_jdeSJrP9-E",
-      authDomain: "instagrin-jc-10-26475.firebaseapp.com",
-      databaseURL: "https://instagrin-jc-10-26475.firebaseio.com",
-      projectId: "instagrin-jc-10-26475",
-      storageBucket: "instagrin-jc-10-26475.appspot.com",
-      messagingSenderId: "474268220244",
-      appId: "1:474268220244:web:9a568790eec751ae6ce6c1"
+      apiKey: "AIzaSyBzBkKPX0tk4LhMhXdnMP8nHJoBC3Vtc2o",
+      authDomain: "instagrinjc10.firebaseapp.com",
+      databaseURL: "https://instagrinjc10.firebaseio.com",
+      projectId: "instagrinjc10",
+      storageBucket: "instagrinjc10.appspot.com",
+      messagingSenderId: "415675053349",
+      appId: "1:415675053349:web:aac00e520997af624756cc",
+      measurementId: "G-B9K8JZS470"
     };
     // Initialize Firebase
     //console.log('Isi Firebase Apps', firebase.apps)
@@ -30,6 +31,7 @@ class AppInit extends Component {
             this.props.notLoginYet();
         }
     });
+    // this.props.notLoginYet()
   }
 
   render() {

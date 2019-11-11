@@ -3,15 +3,36 @@ import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import { Header, Icon, Overlay } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Card, CardItem, Thumbnail, Text, Button, Left, Body, Right } from 'native-base';
-import { selectProfilePost } from '../actions';
+import { selectProfilePost, deletePost, initEditPost } from '../actions';
 
 class PostDetailProfile extends Component {
     state = { isVisible: false, deleteVisible: false }
 
     componentDidUpdate() {
-        if(!this.props.username) {
+        if (!this.props.username) {
             this.props.navigation.goBack()
+        } else if (this.props.selectedEditPostId) {
+            this.props.navigation.navigate('EditPost')
         }
+    }
+
+    componentWillUnmount() {
+        this.props.selectProfilePost(null)
+    }
+
+    onDeletePress = () => {
+        this.setState({ deleteVisible: false })
+        this.props.deletePost(this.props.id)
+    }
+
+    onBtnEditPostPress = () => {
+        this.props.initEditPost({
+            idPost: this.props.id,
+            captionPost: this.props.caption,
+            imagePost: this.props.imageURL
+        })
+        this.props.navigation.navigate('EditPost')
+        this.setState({isVisible: false})
     }
 
     render() {
@@ -69,7 +90,7 @@ class PostDetailProfile extends Component {
                     height={'auto'}
                     onBackdropPress={() => this.setState({ isVisible: false })}
                 >
-                    <TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={this.onBtnEditPostPress}>
                         <Text
                             style={{
                                 fontSize: 16,
@@ -110,7 +131,7 @@ class PostDetailProfile extends Component {
                                 Delete this post?
                             </Text>
                         </View>
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={this.onDeletePress}>
                             <View style={{
                                 paddingVertical: 12,
                                 borderTopWidth: 0.3,
@@ -148,14 +169,27 @@ class PostDetailProfile extends Component {
                         </TouchableWithoutFeedback>
                     </View>
                 </Overlay>
+                <Overlay 
+                    isVisible={this.props.deleteLoading}
+                    height={'auto'}
+                    width={'auto'}
+                >
+                    <View style={{ padding: 15 }}>
+                        <Text style={{ fontSize: 16 }}>
+                            Deleting ...
+                        </Text>
+                    </View>
+                </Overlay>
             </View>
         )
     }
 }
-
-const mapStateToProps = ({ post }) => {
-    // console.log('Post Detail : ', post.selectedPostDetailProfile)
-    return post.selectedPostDetailProfile
+const mapStateToProps = ({ post, editPost}) => {
+    console.log(post.selectedPostDetailProfile)
+    return {
+        ...post.selectedPostDetailProfile,
+        deleteLoading: post.deleteLoading,
+        ...editPost
+    }
 }
-
-export default connect(mapStateToProps, { selectProfilePost })(PostDetailProfile);
+export default connect(mapStateToProps, { selectProfilePost, deletePost, initEditPost})(PostDetailProfile);

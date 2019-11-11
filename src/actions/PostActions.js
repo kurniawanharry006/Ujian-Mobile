@@ -4,7 +4,9 @@ import _ from 'lodash';
 import { 
     EMPTY_POST_LIST,
     FILL_POST_LIST,
-    SELECT_POST_PROFILE
+    SELECT_POST_PROFILE,
+    DELETE_POST,
+    DELETE_POST_SUCCESS,
 } from './types';
 
 export const getListPost = () => {
@@ -43,9 +45,16 @@ export const selectProfilePost = (post) => {
     }
 }
 
-// axios.get('url').then(res => { console.log(res.data)}).catch(err => {})
-// try {
-//     var res = await axios.get('url')
-// } catch(err) {
+export const deletePost = (postId) => {
+    return (dispatch) => {
+        dispatch({ type: DELETE_POST })
+        firebase.database().ref(`/posts/${postId}`)
+            .remove()
+            .then(() => {
+                dispatch({
+                    type: DELETE_POST_SUCCESS
+                })
+            })
+    }
+}
 
-// }

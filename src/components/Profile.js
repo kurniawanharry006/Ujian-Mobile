@@ -6,11 +6,11 @@ import { initEditProfile, selectProfilePost } from '../actions';
 
 class Profile extends Component {
 
-    componentDidUpdate() {
-        if(this.props.postDetail) {
-            this.props.navigation.navigate('PostDetail')
-        }
-    }
+    // componentDidUpdate(){
+    //     if(this.props.postDetail) {
+    //         this.props.navigation.navigate('PostDetail')
+    //     }
+    // }
 
     onBtnEditProfilePress = () => {
         this.props.initEditProfile({
@@ -18,6 +18,11 @@ class Profile extends Component {
             profileImage: this.props.user.photoURL
         })
         this.props.navigation.navigate('EditProfile')
+    }
+
+    onBtnSelectProfilePost = (item) => {
+        this.props.selectProfilePost(item)
+        this.props.navigation.navigate('PostDetail')
     }
 
     renderListPost = () => {
@@ -29,10 +34,8 @@ class Profile extends Component {
                 styleObj.marginHorizontal = '0.5%'
             }
             return (
-                <View 
-                    style={styleObj}
-                >
-                    <TouchableWithoutFeedback onPress={() => this.props.selectProfilePost(item)}>
+                <View style={styleObj}>
+                    <TouchableWithoutFeedback onPress={() => this.onBtnSelectProfilePost(item)}>
                         <Image source={{uri: item.imageURL }} style={{height: 125, width: '100%' }}/>
                     </TouchableWithoutFeedback>
                 </View>
